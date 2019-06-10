@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'custom_shape_clipper.dart';
 import 'constants.dart';
 import 'choice_clip.dart';
+import 'Data/data.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(HomeScreen());
-
-const dropDownItemsStyle = TextStyle(color: Colors.black, fontSize: 18.0);
-const dropDownMenuText = TextStyle(color: Colors.white, fontSize: 16.0);
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -16,10 +15,14 @@ class HomeScreen extends StatelessWidget {
       title: 'Flight App',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Column(
-          children: <Widget>[
-            HomeScreenTopPart(),
-          ],
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: <Widget>[
+              HomeScreenTopPart(),
+              HomeScreenBottomPart(),
+            ],
+          ),
         ),
       ),
     );
@@ -178,16 +181,202 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   }
 
   onChoiceClicked(String type) {
-    if(type == 'Flights' && !isFlightSelected){
+    if (type == 'Flights' && !isFlightSelected) {
       setState(() {
         isFlightSelected = true;
       });
     }
 
-    if(type == 'Hotels' && isFlightSelected){
+    if (type == 'Hotels' && isFlightSelected) {
       setState(() {
         isFlightSelected = false;
       });
     }
+  }
+}
+
+class HomeScreenBottomPart extends StatelessWidget {
+  Widget _buildCityCards(context, index) {
+    print(watchList[index]);
+    return CityCard(
+      cityName: watchList[index]['cityName'],
+      date: watchList[index]['date'],
+      discount: watchList[index]['discount'],
+      imageUrl: watchList[index]['imageUrl'],
+      realPrice: watchList[index]['realPrice'],
+      discountedPrice: watchList[index]['discountedPrice'],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.only(top: 0.0),
+      physics: ClampingScrollPhysics(),
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(
+              top: 30.0, left: 16.0, right: 16.0, bottom: 10.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Currently Watched Items',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.black,
+                  fontFamily: 'Oxygen',
+                ),
+              ),
+              Text(
+                'VIEW ALL (12)',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: appTheme.primaryColor,
+                  fontFamily: 'Oxygen',
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 240.0,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: _buildCityCards,
+            itemCount: watchList.length,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CityCard extends StatelessWidget {
+  final String cityName, date, discount, imageUrl, realPrice, discountedPrice;
+  final formatCurrency = NumberFormat.simpleCurrency();
+
+  CityCard({
+    this.imageUrl,
+    this.cityName,
+    this.date,
+    this.discount,
+    this.realPrice,
+    this.discountedPrice,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                    height: 210.0,
+                    width: 170.0,
+                    child: Image.asset(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    )),
+                Positioned(
+                  top: 0.0,
+                  bottom: 0.0,
+                  left: 0.0,
+                  right: 0.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.1)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 10.0,
+                  bottom: 10.0,
+                  right: 10.0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            cityName,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            date,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal),
+                          )
+                        ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 7.0, vertical: 2.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        child: Text(
+                          discount,
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 5.0,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "\$$discountedPrice",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              width: 20.0,
+            ),
+            Text(
+              "(\$$realPrice)",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18.0),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

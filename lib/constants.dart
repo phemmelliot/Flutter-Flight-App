@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const dropDownItemsStyle = TextStyle(color: Colors.black, fontSize: 18.0);
+const dropDownMenuText = TextStyle(color: Colors.white, fontSize: 16.0);
+
 List<String> locations = [
   'Boston (BS)',
   'New York City (JFK)',
