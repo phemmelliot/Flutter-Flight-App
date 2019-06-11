@@ -5,6 +5,7 @@ import 'constants.dart';
 import 'choice_clip.dart';
 import 'Data/data.dart';
 import 'package:intl/intl.dart';
+import 'AppBar/custom_app_bar.dart';
 
 void main() => runApp(HomeScreen());
 
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
       title: 'Flight App',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        bottomNavigationBar: CustomAppBar(),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
