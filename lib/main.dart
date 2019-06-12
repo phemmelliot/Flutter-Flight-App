@@ -41,6 +41,7 @@ class HomeScreenTopPart extends StatefulWidget {
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   int selectedPopupItemIndex = 0;
   bool isFlightSelected = true;
+  final textFieldContent = TextEditingController(text: 'New York (JFK)');
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +133,7 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                     elevation: 10.0,
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     child: TextField(
-                      controller: TextEditingController(
-                          text: locations[selectedPopupItemIndex]),
+                      controller: textFieldContent,
                       cursorColor: appTheme.primaryColor,
                       style: dropDownItemsStyle,
                       decoration: InputDecoration(
@@ -146,9 +146,16 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FlightListPage()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InheritedFlightListPage(
+                                        child: FlightListPage(),
+                                        fromLocation:
+                                            locations[selectedPopupItemIndex],
+                                        toLocation: textFieldContent.text,
+                                      ),
+                                ),
+                              );
                             },
                             child: Icon(
                               Icons.search,
@@ -379,11 +386,10 @@ class CityCard extends StatelessWidget {
             Text(
               "(\$$realPrice)",
               style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.normal,
-                fontSize: 18.0,
-                decoration: TextDecoration.lineThrough
-              ),
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18.0,
+                  decoration: TextDecoration.lineThrough),
             ),
           ],
         )
