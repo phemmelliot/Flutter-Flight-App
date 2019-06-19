@@ -7,8 +7,28 @@ import 'Data/data.dart';
 import 'package:intl/intl.dart';
 import 'AppBar/custom_app_bar.dart';
 import 'FlightList/flight_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
 
-void main() => runApp(HomeScreen());
+void main() async {
+  final FirebaseApp app = await FirebaseApp.configure(
+    name: 'flight-app',
+    options: Platform.isIOS
+        ? const FirebaseOptions(
+            googleAppID: '1:209246495743:android:bcf85e5019f93292',
+            gcmSenderID: '209246495743',
+            databaseURL: 'https://flight-app-11ff1.firebaseio.com/',
+          )
+        : const FirebaseOptions(
+            googleAppID: '1:209246495743:ios:192ddf177e552326',
+            apiKey: 'AIzaSyC-91FlUFywLE2th6hWAXbroCTCNtwpB24',
+            databaseURL: 'https://flight-app-11ff1.firebaseio.com/',
+          ),
+  );
+
+  runApp(HomeScreen());
+}
 
 class HomeScreen extends StatelessWidget {
   @override

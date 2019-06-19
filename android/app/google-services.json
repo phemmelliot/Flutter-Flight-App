@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "209246495743",
+    "firebase_url": "https://flight-app-11ff1.firebaseio.com",
+    "project_id": "flight-app-11ff1",
+    "storage_bucket": "flight-app-11ff1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209246495743:android:bcf85e5019f93292",
+        "android_client_info": {
+          "package_name": "com.phemmelliot.flight_appplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209246495743-i2caag6vdg2f7gbg5jhvbf37aha010qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2B0hrxZ16JpSLsgobXfH67MY8LnCZ0r8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209246495743-i2caag6vdg2f7gbg5jhvbf37aha010qh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "209246495743-l3pq9kvjc3vtq8802gov4i5pir2inrk8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.phemmelliot.refreshApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
