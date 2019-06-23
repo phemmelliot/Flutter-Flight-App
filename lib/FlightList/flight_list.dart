@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../custom_shape_clipper.dart';
 import 'package:intl/intl.dart';
@@ -135,15 +136,24 @@ class FlightListTopPart extends StatelessWidget {
 //}
 
 class FlightListBottomPart extends StatelessWidget {
-  Widget _buildFlightList(context, index) {
-    var currentBestDeal = bestDeals[index];
-    return FlightCard(
-      flightName: currentBestDeal['flightName'],
-      discountedPrice: currentBestDeal['discountedPrice'],
-      discount: currentBestDeal['discount'],
-      rating: currentBestDeal['rating'],
-      date: currentBestDeal['date'],
-      realPrice: currentBestDeal['realPrice'],
+
+  Widget _buildDeals(context, List<DocumentSnapshot> snapshots) {
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      physics: ClampingScrollPhysics(),
+      itemBuilder: (context, index) {
+        var currentBestDeal = snapshots[index].data;
+        return FlightCard(
+          flightName: currentBestDeal['flightName'],
+          discountedPrice: currentBestDeal['discountedPrice'],
+          discount: currentBestDeal['discount'],
+          rating: currentBestDeal['rating'],
+          date: currentBestDeal['date'],
+          realPrice: currentBestDeal['realPrice'],
+        );
+        },
+      itemCount: snapshots.length,
     );
   }
 
@@ -165,13 +175,14 @@ class FlightListBottomPart extends StatelessWidget {
               ),
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            physics: ClampingScrollPhysics(),
-            itemBuilder: _buildFlightList,
-            itemCount: bestDeals.length,
-          ),
+          StreamBuilder(
+            stream: Firestore.instance.collection('deals').snapshots(),
+            builder: (context, snapshot){
+              return !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : _buildDeals(context, snapshot.data.documents);
+            },
+          )
         ],
       ),
     );

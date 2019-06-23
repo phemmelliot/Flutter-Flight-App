@@ -71,6 +71,9 @@ PODS:
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
   - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - GoogleAppMeasurement (6.0.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -118,12 +121,19 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - path_provider (0.0.1):
+    - Flutter
   - Protobuf (3.8.0)
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -136,6 +146,7 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseInstanceID
+    - FMDB
     - GoogleAppMeasurement
     - GoogleUtilities
     - "gRPC-C++"
@@ -152,6 +163,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -166,6 +181,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: d9c55dfd0cd648f420cc8340c4940dc3eab2d860
   FirebaseInstanceID: cdb3827746d53ece7ae87a5c51c25c3055443366
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: 996e0db07153674fd1b54b220fda3a3dc3547cba
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
@@ -173,7 +189,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  path_provider: 09407919825bfe3c2deae39453b7a5b44f467873
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
+  sqflite: d1612813fa7db7c667bed9f1d1b508deffc56999
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
 

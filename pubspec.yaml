@@ -29,6 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   cloud_firestore: ^0.8.2
+  cached_network_image:
 
 
 # For information on the generic Dart part of this file, see the
