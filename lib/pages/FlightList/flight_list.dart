@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../custom_shape_clipper.dart';
+import 'package:flight_appplication/custom_shape_clipper.dart';
 import 'package:intl/intl.dart';
-import '../Data/flight_deals.dart';
+import '../../model/flight_deals.dart';
 
-import '../bloc/main_bloc.dart';
+import 'package:flight_appplication/bloc/main_bloc.dart';
+import 'package:flight_appplication/bloc/events.dart';
+import 'package:flight_appplication/bloc/bloc_provider.dart';
 
 class InheritedFlightListPage extends InheritedWidget {
   final String toLocation, fromLocation;

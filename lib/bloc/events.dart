@@ -15,3 +15,9 @@ class UnSelectTypeEvent extends FlightEvents{}
 class InputLocationEvent extends FlightEvents{}
 
 class SelectLocationEvent extends FlightEvents{}
+
+//class SelectPageEvent extends FlightEvents{
+//  SelectPageEvent(int index){
+//    super.content = index;
+//  }
+//}
