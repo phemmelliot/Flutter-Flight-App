@@ -42,6 +42,9 @@ class _HomeScreenState extends State<MainPage> {
               body: InheritedFlightApp(
                   bloc: mainBloc, child: _children[0]),
             ),
+//            routes: {
+//              '/search': (BuildContext context) =>
+//            },
           );
   }
 

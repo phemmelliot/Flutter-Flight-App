@@ -119,27 +119,6 @@ class FlightListTopPart extends StatelessWidget {
   }
 }
 
-//class InheritedFlightCard extends InheritedWidget {
-//  final String flightName, date, rating, discount;
-//  final int realPrice, discountedPrice;
-//
-//  InheritedFlightCard({
-//    Widget child,
-//    this.flightName,
-//    this.date,
-//    this.discount,
-//    this.rating,
-//    this.realPrice,
-//    this.discountedPrice,
-//  });
-//
-//  static InheritedFlightCard of(BuildContext context) =>
-//      context.inheritFromWidgetOfExactType(InheritedFlightCard);
-//
-//  @override
-//  bool updateShouldNotify(InheritedWidget oldWidget) => true;
-//}
-
 class FlightListBottomPart extends StatelessWidget {
 
   Widget _buildDeals(context, List<FlightDeals> snapshots) {

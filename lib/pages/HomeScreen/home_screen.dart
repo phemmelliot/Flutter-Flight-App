@@ -32,9 +32,6 @@ class HomeScreenTopPart extends StatelessWidget {
   @override
   Widget build(BuildContext buildContext) {
     MainBloc _bloc = InheritedFlightApp.of(buildContext).bloc;
-    MainBloc bloc = MainBloc();
-    print("Inherited $_bloc");
-    print("New $bloc");
     return StreamBuilder(
       stream: _bloc.locations,
       builder: (context, snapshot) {
@@ -152,7 +149,7 @@ class HomeScreenTopPart extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               InheritedFlightListPage(
-                                                bloc: bloc,
+                                                bloc: _bloc,
                                                 child: FlightListPage(),
                                                 fromLocation: locationList[
                                                 selectedPopupItemIndex],
