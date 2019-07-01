@@ -11,6 +11,20 @@ import 'package:flight_appplication/bloc/main_bloc.dart';
 import 'package:flight_appplication/bloc/events.dart';
 import 'package:flight_appplication/bloc/bloc_provider.dart';
 
+
+class InheritedHomePage extends InheritedWidget {
+  final TextEditingController textFieldContent;
+
+  InheritedHomePage({Widget child, this.textFieldContent})
+      : super(child: child);
+
+  static InheritedHomePage of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(InheritedHomePage);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+}
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,10 +41,11 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeScreenTopPart extends StatelessWidget {
-  final textFieldContent = TextEditingController(text: 'New York (JFK)');
+  // final textFieldContent = TextEditingController(text: 'New York (JFK)');
 
   @override
   Widget build(BuildContext buildContext) {
+    final textFieldContent = InheritedHomePage.of(buildContext).textFieldContent;
     MainBloc _bloc = InheritedFlightApp.of(buildContext).bloc;
     return StreamBuilder(
       stream: _bloc.locations,

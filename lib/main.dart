@@ -20,33 +20,39 @@ void main() => runApp(MainPage());
 
 class MainPage extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _HomeScreenState extends State<MainPage> {
+class _MainPageState extends State<MainPage> {
   final MainBloc mainBloc = MainBloc();
-  final List<Widget> _children = [
-    HomeScreen(),
-    WatchListScreen(),
-    DealsScreen()
-  ];
+  final textFieldContent = TextEditingController(text: 'New York (JFK)');
 
   @override
   Widget build(BuildContext context) {
-          return MaterialApp(
-            title: 'Flight App',
-            debugShowCheckedModeBanner: false,
-            theme: appTheme,
-            home: Scaffold(
-              bottomNavigationBar: CustomAppBar(bloc: mainBloc, index: 0),
-              body: InheritedFlightApp(
-                  bloc: mainBloc, child: _children[0]),
-            ),
+    final List<Widget> _children = [
+      InheritedHomePage(
+        child: HomeScreen(),
+        textFieldContent: textFieldContent,
+      ),
+      WatchListScreen(),
+      DealsScreen()
+    ];
+
+    return MaterialApp(
+      title: 'Flight App',
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      home: Scaffold(
+        bottomNavigationBar: CustomAppBar(bloc: mainBloc, index: 0),
+        body: InheritedFlightApp(bloc: mainBloc, child: _children[0]),
+      ),
 //            routes: {
 //              '/search': (BuildContext context) =>
 //            },
-          );
+    );
   }
+
+  // void saveTextField()
 
   @override
   void dispose() {
