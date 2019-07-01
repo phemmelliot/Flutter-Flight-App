@@ -83,23 +83,33 @@ class FlightListTopPart extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   flex: 5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        InheritedFlightListPage.of(context).fromLocation,
-                        style: TextStyle(fontSize: 18.0),
-                      ),
-                      Divider(
-                        height: 20.0,
-                        color: Colors.grey,
-                      ),
-                      Text(
-                        InheritedFlightListPage.of(context).toLocation,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      )
-                    ],
+                  child: StreamBuilder(
+                    stream: null,
+                    builder: (context, snapshot) {
+                      return StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                InheritedFlightListPage.of(context).fromLocation,
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                              Divider(
+                                height: 20.0,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                InheritedFlightListPage.of(context).toLocation,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18.0),
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    }
                   ),
                 ),
                 Spacer(),
@@ -144,6 +154,7 @@ class FlightListBottomPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc _bloc = InheritedFlightListPage.of(context).bloc;
+    _bloc.refillForSearch();
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, left: 10.0),
       child: Column(

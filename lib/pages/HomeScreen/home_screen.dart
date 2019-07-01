@@ -14,8 +14,9 @@ import 'package:flight_appplication/bloc/bloc_provider.dart';
 
 class InheritedHomePage extends InheritedWidget {
   final TextEditingController textFieldContent;
+  final Function saveSelectedLocation;
 
-  InheritedHomePage({Widget child, this.textFieldContent})
+  InheritedHomePage({Widget child, this.textFieldContent, this.saveSelectedLocation})
       : super(child: child);
 
   static InheritedHomePage of(BuildContext context) =>
@@ -70,6 +71,7 @@ class HomeScreenTopPart extends StatelessWidget {
 //                    print("==========>${snapshot.data}");
                     var selectedPopupItemIndex =
                     snapshot.data == null ? 0 : snapshot.data;
+                    InheritedHomePage.of(buildContext).saveSelectedLocation(locationList[selectedPopupItemIndex]);
                     return Column(
                       children: <Widget>[
                         SizedBox(
@@ -159,20 +161,21 @@ class HomeScreenTopPart extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(30.0)),
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              InheritedFlightListPage(
-                                                bloc: _bloc,
-                                                child: FlightListPage(),
-                                                fromLocation: locationList[
-                                                selectedPopupItemIndex],
-                                                toLocation:
-                                                textFieldContent.text,
-                                              ),
-                                        ),
-                                      );
+                                      Navigator.pushNamed(context, '/search');
+//                                      Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                          builder: (context) =>
+//                                              InheritedFlightListPage(
+//                                                bloc: _bloc,
+//                                                child: FlightListPage(),
+//                                                fromLocation: locationList[
+//                                                selectedPopupItemIndex],
+//                                                toLocation:
+//                                                textFieldContent.text,
+//                                              ),
+//                                        ),
+//                                      );
                                     },
                                     child: Icon(
                                       Icons.search,

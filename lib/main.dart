@@ -26,6 +26,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final MainBloc mainBloc = MainBloc();
   final textFieldContent = TextEditingController(text: 'New York (JFK)');
+  String location = 'LA';
+  // final Function save
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class _MainPageState extends State<MainPage> {
       InheritedHomePage(
         child: HomeScreen(),
         textFieldContent: textFieldContent,
+        saveSelectedLocation: saveSelectedLocation
       ),
       WatchListScreen(),
       DealsScreen()
@@ -46,13 +49,39 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: CustomAppBar(bloc: mainBloc, index: 0),
         body: InheritedFlightApp(bloc: mainBloc, child: _children[0]),
       ),
-//            routes: {
-//              '/search': (BuildContext context) =>
-//            },
+      routes: {
+        '/search': (BuildContext context) {
+          mainBloc.refillForSearch();
+          mainBloc.refillForSearch();
+          return StreamBuilder(
+            stream: mainBloc.locations,
+            builder: (context, snapshot) {
+              mainBloc.refillForSearch();
+              List<String> locationList =
+                  snapshot.data == null ? ['LA'] : snapshot.data;
+              return StreamBuilder(
+                stream: mainBloc.selectedPopupItemIndex,
+                builder: (context, snapshot) {
+                  var selectedPopupItemIndex =
+                      snapshot.data == null ? 0 : snapshot.data;
+                  return InheritedFlightListPage(
+                    bloc: mainBloc,
+                    child: FlightListPage(),
+                    fromLocation: location,
+                    toLocation: textFieldContent.text,
+                  );
+                },
+              );
+            },
+          );
+        }
+      },
     );
   }
 
-  // void saveTextField()
+  void saveSelectedLocation(String fromLocation) {
+    location = fromLocation;
+  }
 
   @override
   void dispose() {

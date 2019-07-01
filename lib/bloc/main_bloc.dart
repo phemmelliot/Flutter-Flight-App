@@ -40,9 +40,9 @@ class MainBloc {
   Sink<FlightEvents> get flightEventSink => _flightEventsController.sink;
 
   // Firebase Controllers and Sinks
-  final _getLocationsController = StreamController<List<String>>();
-  final _getCitiesController = StreamController<List<City>>();
-  final _getDealsController = StreamController<List<FlightDeals>>();
+  final _getLocationsController = StreamController<List<String>>.broadcast();
+  final _getCitiesController = StreamController<List<City>>.broadcast();
+  final _getDealsController = StreamController<List<FlightDeals>>.broadcast();
 
   StreamSink<List<String>> get _locationsSink => _getLocationsController.sink;
 
@@ -64,6 +64,11 @@ class MainBloc {
 //        print("===========>$deal");
 //      });
       return _getDealsController.stream;
+    }
+    
+    refillForSearch() {
+      _dealsSink.add(_deals);
+      _selectedLocationController.add(_selectedPopupItemIndex);
     }
 
     MainBloc() {
