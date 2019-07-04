@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'events.dart';
 import '../api/firebase_services.dart';
@@ -17,10 +18,10 @@ class MainBloc {
   List<FlightDeals> _deals = [];
 
   // App state Controller, Streams and Sinks
-  final _selectedLocationController = StreamController<int>.broadcast();
-  final _selectedTypeController = StreamController<bool>.broadcast();
-  final _inputLocationEvent = StreamController<String>.broadcast();
-  final _selectedPageController = StreamController<int>.broadcast();
+  final _selectedLocationController = BehaviorSubject<int>();
+  final _selectedTypeController = BehaviorSubject<bool>();
+  final _inputLocationEvent = BehaviorSubject<String>();
+  final _selectedPageController = BehaviorSubject<int>();
 
   final _flightEventsController = StreamController<FlightEvents>();
 
@@ -40,18 +41,13 @@ class MainBloc {
   Sink<FlightEvents> get flightEventSink => _flightEventsController.sink;
 
   // Firebase Controllers and Sinks
-  final _getLocationsController = StreamController<List<String>>.broadcast();
-  final _getCitiesController = StreamController<List<City>>.broadcast();
-  final _getDealsController = StreamController<List<FlightDeals>>.broadcast();
+  final _getLocationsController = BehaviorSubject<List<String>>();
+  final _getCitiesController = BehaviorSubject<List<City>>();
+  final _getDealsController = BehaviorSubject<List<FlightDeals>>();
 
   StreamSink<List<String>> get _locationsSink => _getLocationsController.sink;
 
-  Stream<List<String>> get locations {
-//    _getLocationsController.stream.listen((locations){
-//      print("===========>${locations}");
-//    });
-    return _getLocationsController.stream;
-  }
+  Stream<List<String>> get locations => _getLocationsController.stream;
 
     StreamSink<List<City>> get _citiesSink => _getCitiesController.sink;
 
@@ -60,22 +56,12 @@ class MainBloc {
     StreamSink<List<FlightDeals>> get _dealsSink => _getDealsController.sink;
 
     Stream<List<FlightDeals>> get deals{
-//      _getDealsController.stream.listen((deal){
-//        print("===========>$deal");
-//      });
+
       return _getDealsController.stream;
-    }
-    
-    refillForSearch() {
-      _dealsSink.add(_deals);
-      _selectedLocationController.add(_selectedPopupItemIndex);
     }
 
     MainBloc() {
-//    print('I am intializing========');
-      _selectedPageSink.add(0);
-      _locationsSink.add(_locations);
-      _citiesSink.add(_cities);
+      _selectedPageSink.add(_selectedPageIndex);
       firebaseService = FirebaseService();
       firebaseService.getCities().listen(
               (event) => _handleFirebaseEvents(event.documents, GetCitiesEvent()));
@@ -88,7 +74,6 @@ class MainBloc {
 
     _handleFirebaseEvents(
         List<DocumentSnapshot> snapshot, FlightEvents eventType) {
-//    print("I am inside the sink function =============>>>");
       switch(eventType.runtimeType){
         case GetCitiesEvent:
           _cities.clear();
@@ -130,10 +115,10 @@ class MainBloc {
           _textFieldContent = events.content;
           _textFieldContentSink.add(_textFieldContent);
           break;
-//        case SelectPageEvent:
-//          _selectedPageIndex = events.content;
-//          _selectedPageSink.add(_selectedPageIndex);
-//          break;
+        case SelectPageEvent:
+          _selectedPageIndex = events.content;
+          _selectedPageSink.add(_selectedPageIndex);
+          break;
       }
     }
 

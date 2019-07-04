@@ -16,8 +16,8 @@ class InputLocationEvent extends FlightEvents{}
 
 class SelectLocationEvent extends FlightEvents{}
 
-//class SelectPageEvent extends FlightEvents{
-//  SelectPageEvent(int index){
-//    super.content = index;
-//  }
-//}
+class SelectPageEvent extends FlightEvents{
+  SelectPageEvent(int index){
+    super.content = index;
+  }
+}

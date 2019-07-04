@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flight_appplication/custom_shape_clipper.dart';
-import 'package:flight_appplication/constants.dart';
+import 'package:flight_appplication/helpers.dart';
 import 'package:flight_appplication/components/choice_clip.dart';
-import 'package:flight_appplication/pages/FlightList/flight_list.dart';
 import 'package:flight_appplication/model/city.dart';
 import 'package:flight_appplication/components/city_card.dart';
 
@@ -11,12 +10,14 @@ import 'package:flight_appplication/bloc/main_bloc.dart';
 import 'package:flight_appplication/bloc/events.dart';
 import 'package:flight_appplication/bloc/bloc_provider.dart';
 
+import 'package:flutter/services.dart';
 
 class InheritedHomePage extends InheritedWidget {
   final TextEditingController textFieldContent;
   final Function saveSelectedLocation;
 
-  InheritedHomePage({Widget child, this.textFieldContent, this.saveSelectedLocation})
+  InheritedHomePage(
+      {Widget child, this.textFieldContent, this.saveSelectedLocation})
       : super(child: child);
 
   static InheritedHomePage of(BuildContext context) =>
@@ -42,16 +43,16 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeScreenTopPart extends StatelessWidget {
-  // final textFieldContent = TextEditingController(text: 'New York (JFK)');
-
   @override
   Widget build(BuildContext buildContext) {
-    final textFieldContent = InheritedHomePage.of(buildContext).textFieldContent;
+    final textFieldContent =
+        InheritedHomePage.of(buildContext).textFieldContent;
     MainBloc _bloc = InheritedFlightApp.of(buildContext).bloc;
     return StreamBuilder(
       stream: _bloc.locations,
       builder: (context, snapshot) {
-        List<String> locationList = snapshot.data == null ? ['LA'] : snapshot.data;
+        List<String> locationList =
+            snapshot.data == null ? ['LA'] : snapshot.data;
         return Stack(
           children: <Widget>[
             ClipPath(
@@ -68,10 +69,10 @@ class HomeScreenTopPart extends StatelessWidget {
                 child: StreamBuilder(
                   stream: _bloc.selectedPopupItemIndex,
                   builder: (context, snapshot) {
-//                    print("==========>${snapshot.data}");
                     var selectedPopupItemIndex =
-                    snapshot.data == null ? 0 : snapshot.data;
-                    InheritedHomePage.of(buildContext).saveSelectedLocation(locationList[selectedPopupItemIndex]);
+                        snapshot.data == null ? 0 : snapshot.data;
+                    InheritedHomePage.of(buildContext).saveSelectedLocation(
+                        locationList[selectedPopupItemIndex]);
                     return Column(
                       children: <Widget>[
                         SizedBox(
@@ -146,7 +147,7 @@ class HomeScreenTopPart extends StatelessWidget {
                           child: Material(
                             elevation: 10.0,
                             borderRadius:
-                            BorderRadius.all(Radius.circular(30.0)),
+                                BorderRadius.all(Radius.circular(30.0)),
                             child: TextField(
                               controller: textFieldContent,
                               cursorColor: appTheme.primaryColor,
@@ -158,24 +159,10 @@ class HomeScreenTopPart extends StatelessWidget {
                                 suffixIcon: Material(
                                   elevation: 5.0,
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
+                                      BorderRadius.all(Radius.circular(30.0)),
                                   child: InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(context, '/search');
-//                                      Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                          builder: (context) =>
-//                                              InheritedFlightListPage(
-//                                                bloc: _bloc,
-//                                                child: FlightListPage(),
-//                                                fromLocation: locationList[
-//                                                selectedPopupItemIndex],
-//                                                toLocation:
-//                                                textFieldContent.text,
-//                                              ),
-//                                        ),
-//                                      );
                                     },
                                     child: Icon(
                                       Icons.search,
@@ -193,10 +180,10 @@ class HomeScreenTopPart extends StatelessWidget {
                             stream: _bloc.isFlightSelected,
                             builder: (context, snapshot) {
                               var isFlight =
-                              snapshot.data == null ? true : snapshot.data;
+                                  snapshot.data == null ? true : snapshot.data;
                               return Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ChoiceClip(
@@ -252,7 +239,37 @@ class HomeScreenBottomPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBloc _bloc = InheritedFlightApp.of(context).bloc;
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarColor: appTheme.primaryColor, //top bar color
+          statusBarIconBrightness: Brightness.light, //top bar icons
+          systemNavigationBarColor: Colors.white, //bottom bar color
+          systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
+        )
+    );
+    return Column(
+      children: <Widget>[
+        WatchedItems(bloc: _bloc),
+        SizedBox(
+          height: 10.0,
+        ),
+        BestDeals(bloc: _bloc),
+      ],
+    );
+  }
+}
 
+class WatchedItems extends StatelessWidget {
+  final MainBloc bloc;
+
+  WatchedItems({this.bloc});
+
+  Widget _buildCityCards(City city) {
+    return CityCard(city: city);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
@@ -284,7 +301,7 @@ class HomeScreenBottomPart extends StatelessWidget {
         Container(
           height: 240.0,
           child: StreamBuilder(
-            stream: _bloc.cities,
+            stream: bloc.cities,
             builder: (context, snapshot) {
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -295,6 +312,61 @@ class HomeScreenBottomPart extends StatelessWidget {
               );
             },
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class BestDeals extends StatelessWidget {
+  final MainBloc bloc;
+
+  BestDeals({this.bloc});
+
+  Widget _buildCityCards(City city) {
+    return CityCard(city: city);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(
+              top: 30.0, left: 16.0, right: 16.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Current Best Deals',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.black,
+                  fontFamily: 'Oxygen',
+                ),
+              ),
+              Text(
+                'VIEW ALL (12)',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: appTheme.primaryColor,
+                  fontFamily: 'Oxygen',
+                ),
+              ),
+            ],
+          ),
+        ),
+        StreamBuilder(
+          stream: bloc.deals,
+          builder: (context, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: !snapshot.hasData
+                  ? Center(child: CircularProgressIndicator())
+                  : buildDeals(context, snapshot.data),
+            );
+          },
         ),
       ],
     );

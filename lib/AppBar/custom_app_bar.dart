@@ -10,7 +10,8 @@ class CustomAppBar extends StatelessWidget {
   final int index;
 
   CustomAppBar({this.bloc, this.index}) {
-    bottomBarItems.add(BottomNavigationBarItem(
+    bottomBarItems.add(
+      BottomNavigationBarItem(
         icon: Icon(
           Icons.home,
           color: Colors.black,
@@ -18,9 +19,12 @@ class CustomAppBar extends StatelessWidget {
         title: Text(
           'Explore',
           style: passiveNavigationItemStyle,
-        )));
+        ),
+      ),
+    );
 
-    bottomBarItems.add(BottomNavigationBarItem(
+    bottomBarItems.add(
+      BottomNavigationBarItem(
         icon: Icon(
           Icons.favorite,
           color: Colors.black,
@@ -28,9 +32,12 @@ class CustomAppBar extends StatelessWidget {
         title: Text(
           'Watchlist',
           style: passiveNavigationItemStyle,
-        )));
+        ),
+      ),
+    );
 
-    bottomBarItems.add(BottomNavigationBarItem(
+    bottomBarItems.add(
+      BottomNavigationBarItem(
         icon: Icon(
           Icons.local_offer,
           color: Colors.black,
@@ -38,14 +45,9 @@ class CustomAppBar extends StatelessWidget {
         title: Text(
           'Deals',
           style: passiveNavigationItemStyle,
-        )));
-
-//    bottomBarItems.add(
-//        BottomNavigationBarItem(
-//            icon: Icon(Icons.notifications, color: Colors.black,) ,
-//            title: Text('Notifications', style: passiveNavigationItemStyle,)
-//        )
-//    );
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,7 +55,7 @@ class CustomAppBar extends StatelessWidget {
     return Material(
       elevation: 15.0,
       child: BottomNavigationBar(
-//        onTap: (index) => bloc.flightEventSink.add(SelectPageEvent(index)),
+        onTap: (index) => bloc.flightEventSink.add(SelectPageEvent(index)),
         currentIndex: index,
         items: bottomBarItems,
         type: BottomNavigationBarType.fixed,
