@@ -6,6 +6,7 @@ import 'choice_clip.dart';
 import 'Data/data.dart';
 import 'package:intl/intl.dart';
 import 'AppBar/custom_app_bar.dart';
+import 'FlightList/flight_list.dart';
 
 void main() => runApp(HomeScreen());
 
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
     return MaterialApp(
       title: 'Flight App',
       debugShowCheckedModeBanner: false,
+      theme: appTheme,
       home: Scaffold(
         bottomNavigationBar: CustomAppBar(),
         body: SingleChildScrollView(
@@ -141,9 +143,17 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                         suffixIcon: Material(
                           elevation: 5.0,
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.black,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FlightListPage()));
+                            },
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
@@ -199,7 +209,6 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
 
 class HomeScreenBottomPart extends StatelessWidget {
   Widget _buildCityCards(context, index) {
-    print(watchList[index]);
     return CityCard(
       cityName: watchList[index]['cityName'],
       date: watchList[index]['date'],
@@ -212,10 +221,7 @@ class HomeScreenBottomPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: EdgeInsets.only(top: 0.0),
-      physics: ClampingScrollPhysics(),
+    return Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(
@@ -362,9 +368,10 @@ class CityCard extends StatelessWidget {
             Text(
               "\$$discountedPrice",
               style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0),
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 18.0,
+              ),
             ),
             SizedBox(
               width: 20.0,
@@ -372,9 +379,11 @@ class CityCard extends StatelessWidget {
             Text(
               "(\$$realPrice)",
               style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18.0),
+                color: Colors.grey,
+                fontWeight: FontWeight.normal,
+                fontSize: 18.0,
+                decoration: TextDecoration.lineThrough
+              ),
             ),
           ],
         )
