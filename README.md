@@ -1,8 +1,13 @@
-# flight_appplication
+# Flight Appplication
 
-A new Flutter application.
+This project is a dummy flight app that fetches dummy data from Firebase's firestore and then uses bloc pattern
+and the concept of reactive programming to render these stream of data in real time on a high fidelity flutter UI
 
-## Getting Started
+## Acknowledgement
+- [Initial Flight Design by kishore from dribble](https://dribbble.com/shots/5662956-Flight-Tickets-Deal-Tracker-App-Day-340-365-Project365)
+
+
+## To get Started with flutter
 
 This project is a starting point for a Flutter application.
 
