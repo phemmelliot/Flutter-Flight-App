@@ -10,6 +10,7 @@ import 'package:flight_appplication/bloc/bloc_provider.dart';
 import 'package:flight_appplication/pages/HomeScreen/home_screen.dart';
 import 'package:flight_appplication/pages/WatchListScreen/watchlist_screen.dart';
 import 'package:flight_appplication/pages/DealsScreen/deals_screen.dart';
+import 'package:flight_appplication/splash_screen.dart';
 
 void main() => runApp(MainPage());
 
@@ -38,7 +39,9 @@ class _MainPageState extends State<MainPage> {
       title: 'Flight App',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
+      initialRoute: '/splash',
       routes: {
+        '/splash': (BuildContext context) => SplashScreen(),
         '/': (BuildContext context) => StreamBuilder(
           stream: mainBloc.selectedPageIndex,
           builder: (context, snapshot) {

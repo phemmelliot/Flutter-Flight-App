@@ -3,12 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flight_appplication/model/city.dart';
+import 'package:flight_appplication/helpers.dart';
 
 class CityCard extends StatelessWidget {
   final City city;
+  final bool isGridCard;
   final formatCurrency = NumberFormat.simpleCurrency();
 
-  CityCard({this.city});
+  CityCard({this.city, this.isGridCard = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CityCard extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height: 210.0,
-                  width: 170.0,
+                  width: isGridCard ? screenAwareWidth(60, context) : 170.0,
                   child: CachedNetworkImage(
                     imageUrl: '${city.imageUrl}',
                     fit: BoxFit.cover,
@@ -106,7 +108,7 @@ class CityCard extends StatelessWidget {
           height: 5.0,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: isGridCard ? MainAxisAlignment.center : MainAxisAlignment.end,
           children: <Widget>[
             Text(
               "\$${city.discountedPrice}",
@@ -128,7 +130,7 @@ class CityCard extends StatelessWidget {
                   decoration: TextDecoration.lineThrough),
             ),
           ],
-        )
+        ),
       ],
     );
   }

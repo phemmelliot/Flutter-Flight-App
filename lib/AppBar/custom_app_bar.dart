@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flight_appplication/bloc/main_bloc.dart';
 import 'package:flight_appplication/bloc/events.dart';
 
+import 'package:flight_appplication/helpers.dart';
+
 class CustomAppBar extends StatelessWidget {
   final List<BottomNavigationBarItem> bottomBarItems = [];
   final TextStyle passiveNavigationItemStyle =
       TextStyle(color: Colors.black87, fontSize: 16.0);
+  final TextStyle activeNavigationItemStyle =
+  TextStyle(color: appTheme.primaryColor, fontSize: 16.0);
   final MainBloc bloc;
   final int index;
 
@@ -14,11 +18,11 @@ class CustomAppBar extends StatelessWidget {
       BottomNavigationBarItem(
         icon: Icon(
           Icons.home,
-          color: Colors.black,
+          color: index == 0 ? appTheme.primaryColor : Colors.black,
         ),
         title: Text(
           'Explore',
-          style: passiveNavigationItemStyle,
+          style: index == 0 ? activeNavigationItemStyle : passiveNavigationItemStyle,
         ),
       ),
     );
@@ -27,11 +31,11 @@ class CustomAppBar extends StatelessWidget {
       BottomNavigationBarItem(
         icon: Icon(
           Icons.favorite,
-          color: Colors.black,
+          color: index == 1 ? appTheme.primaryColor : Colors.black,
         ),
         title: Text(
           'Watchlist',
-          style: passiveNavigationItemStyle,
+          style: index == 1 ? activeNavigationItemStyle : passiveNavigationItemStyle,
         ),
       ),
     );
@@ -40,11 +44,11 @@ class CustomAppBar extends StatelessWidget {
       BottomNavigationBarItem(
         icon: Icon(
           Icons.local_offer,
-          color: Colors.black,
+          color: index == 2 ? appTheme.primaryColor : Colors.black,
         ),
         title: Text(
           'Deals',
-          style: passiveNavigationItemStyle,
+          style: index == 2 ? activeNavigationItemStyle : passiveNavigationItemStyle,
         ),
       ),
     );
