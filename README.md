@@ -3,6 +3,8 @@
 This project is a dummy flight app that fetches dummy data from Firebase's firestore and then uses bloc pattern
 and the concept of reactive programming to render these stream of data in real time on a high fidelity flutter UI
 
+-[Google drive link to the app](https://drive.google.com/open?id=1hCjw1r1IO6Au4JEsURt_bD3R2LdCu7cd)
+
 ## Acknowledgement
 - [Initial Flight Design by kishore from dribble](https://dribbble.com/shots/5662956-Flight-Tickets-Deal-Tracker-App-Day-340-365-Project365)
 
