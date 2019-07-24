@@ -18,7 +18,15 @@ ThemeData appTheme = ThemeData(
   fontFamily: 'Oxygen'
 );
 
-Widget buildDeals(context, List<FlightDeals> snapshots) {
+double screenAwareSize(double percent, BuildContext context){
+  return percent/100 * MediaQuery.of(context).size.height;
+}
+
+double screenAwareWidth(double percent, BuildContext context){
+  return percent/100 * MediaQuery.of(context).size.width;
+}
+
+Widget buildDeals(BuildContext context, List<FlightDeals> snapshots) {
   return ListView.builder(
     shrinkWrap: true,
     padding: EdgeInsets.only(top: 0.0),
