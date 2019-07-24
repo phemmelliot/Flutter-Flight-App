@@ -4,6 +4,19 @@ import '../custom_shape_clipper.dart';
 import 'package:intl/intl.dart';
 import '../Data/data.dart';
 
+class InheritedFlightListPage extends InheritedWidget {
+  final String toLocation, fromLocation;
+
+  InheritedFlightListPage({Widget child, this.toLocation, this.fromLocation})
+      : super(child: child);
+
+  static InheritedFlightListPage of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(InheritedFlightListPage);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+}
+
 class FlightListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -68,7 +81,7 @@ class FlightListTopPart extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Boston (BOS)',
+                        InheritedFlightListPage.of(context).fromLocation,
                         style: TextStyle(fontSize: 18.0),
                       ),
                       Divider(
@@ -76,7 +89,7 @@ class FlightListTopPart extends StatelessWidget {
                         color: Colors.grey,
                       ),
                       Text(
-                        'New York City (JFK)',
+                        InheritedFlightListPage.of(context).toLocation,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18.0),
                       )
@@ -100,8 +113,28 @@ class FlightListTopPart extends StatelessWidget {
   }
 }
 
-class FlightListBottomPart extends StatelessWidget {
+//class InheritedFlightCard extends InheritedWidget {
+//  final String flightName, date, rating, discount;
+//  final int realPrice, discountedPrice;
+//
+//  InheritedFlightCard({
+//    Widget child,
+//    this.flightName,
+//    this.date,
+//    this.discount,
+//    this.rating,
+//    this.realPrice,
+//    this.discountedPrice,
+//  });
+//
+//  static InheritedFlightCard of(BuildContext context) =>
+//      context.inheritFromWidgetOfExactType(InheritedFlightCard);
+//
+//  @override
+//  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+//}
 
+class FlightListBottomPart extends StatelessWidget {
   Widget _buildFlightList(context, index) {
     var currentBestDeal = bestDeals[index];
     return FlightCard(
@@ -150,7 +183,13 @@ class FlightCard extends StatelessWidget {
   final int realPrice, discountedPrice;
   final formatCurrency = NumberFormat.simpleCurrency();
 
-  FlightCard({this.flightName, this.date, this.discount, this.rating, this.realPrice, this.discountedPrice});
+  FlightCard(
+      {this.flightName,
+      this.date,
+      this.discount,
+      this.rating,
+      this.realPrice,
+      this.discountedPrice});
 
   @override
   Widget build(BuildContext context) {
